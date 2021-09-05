@@ -29,7 +29,7 @@
       <v-col class="conversation-area__input pa-3 pt-0 flex-grow-0 flex-shrink-1">
         <v-row class="no-gutters container pa-0 mx-auto">
           <v-col col="12" lg="8" class="mx-auto">
-            <v-text-field v-model="typedMessage" hide-details color="primary" @keyup.enter="sendMessage(typedMessage)">
+            <v-text-field v-model="typedMessage" hide-details outlined color="primary" @keyup.enter="sendMessage(typedMessage)">
               <v-btn slot="append" :disabled="!typedMessage" color="primary" icon>
                 <v-icon @click="sendMessage(typedMessage)">mdi-send</v-icon>
               </v-btn>
@@ -97,6 +97,8 @@ export default {
   bottom: 0
   left: 0
   background-color: #FFFFFF
+  .v-input__append-inner
+    margin: auto
 .conversation-area__baloon
   border-radius: 20px!important  
 .conversation-area__baloon--self
