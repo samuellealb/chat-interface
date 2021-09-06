@@ -4,27 +4,13 @@
       <v-col
         class="conversation-area__feed flex-grow-1 flex-shrink-0"
       >
-        <v-row
+        <conversation-messages
           v-for="(message, i) in messages"
           :key="i"
-          class="no-gutters py-2"
-        >
-          <v-col
-            cols="auto"
-            style="max-width: 75%;"
-            :class="message.self ? 'ml-auto' : 'mr-auto'"
-            class="conversation-area__card"
-          >
-            <v-card class="conversation-area__baloon pa-4 pb-2" :class="message.self ? 'conversation-area__baloon--self' : 'conversation-area__baloon--other'">
-              {{message.content}}
-              <v-card-actions class="pa-0">
-                <span class="conversation-area__time-label" :class="message.self ? 'text-right' : ''">
-                  {{message.time}}
-                </span>
-              </v-card-actions>
-            </v-card>
-          </v-col>
-        </v-row>
+          :messages="messages"
+          :message="message"
+          :index="i"
+        />
       </v-col>
       <v-col class="conversation-area__input pa-3 pt-0 flex-grow-0 flex-shrink-1">
         <v-row class="no-gutters container pa-0 mx-auto">
@@ -42,7 +28,10 @@
 </template>
 
 <script>
+import ConversationMessages from '@/components/ConversationMessages.vue'
+
 export default {
+  components: { ConversationMessages },
   data () {
     return {
       typedMessage: ''
@@ -99,20 +88,4 @@ export default {
   background-color: #FFFFFF
   .v-input__append-inner
     margin: auto
-.conversation-area__baloon
-  border-radius: 20px!important  
-.conversation-area__baloon--self
-  background-color: var(--v-primary-base)!important
-  border-bottom-right-radius: 0!important
-  color: #FFFFFF!important
-.conversation-area__baloon--other
-  background-color: var(--v-secondary-lighten2)!important
-  border-bottom-left-radius: 0!important
-  color: #FFFFFF!important
-.conversation-area__time-label
-  width: 100%
-  font-weight: 300
-  font-style: italic
-  font-size: 0.75rem
-
 </style>
