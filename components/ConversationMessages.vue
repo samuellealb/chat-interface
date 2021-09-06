@@ -1,8 +1,9 @@
 <template>
     <v-row class="no-gutters">
+        <!-- TODO: dynamic balloon width based on largest item in the same block-->
         <v-col
         cols="auto"
-        style="max-width: 75%;"
+        style="width: 275px;" 
         :class="message.self ? 'ml-auto' : 'mr-auto'"
         class="conversation-area__card"
         >
