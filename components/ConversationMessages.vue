@@ -2,38 +2,44 @@
     <v-row class="no-gutters">
         <!-- TODO: dynamic balloon width based on largest item in the same block-->
         <v-col
-        cols="auto"
-        style="width: 275px;" 
-        :class="message.self ? 'ml-auto' : 'mr-auto'"
-        class="conversation-area__card"
+            cols="auto"
+            style="width: 275px;" 
+            :class="message.self ? 'ml-auto' : 'mr-auto'"
+            class="conversation-area__card"
         >
-        <v-card
-            class="conversation-area__baloon pa-4 pb-2"
-            :class="[
-                { 'conversation-area__baloon--self': message.self === true },
-                { 'conversation-area__baloon--other': message.self === false },
-                { 'conversation-area__baloon--first':  messagePosition === 'first' },
-                { 'conversation-area__baloon--middle': messagePosition === 'middle' },
-                { 'conversation-area__baloon--last': messagePosition === 'last' },
-                { 'conversation-area__baloon--single': messagePosition === 'single' },
-            
-            ]">
-            {{message.content}}
-            <v-card-actions v-if="message.actions" class="pa-0 mt-3">
-                <v-row class="no-gutters">
-                    <v-col v-for="(action, a) in message.actions" :key="a" cols="12" class="conversation-area__user-action my-1">
-                        <v-btn plain block :to='action.target' class="white--text text--darken-1">
-                            {{action.text}}
-                        </v-btn>
-                    </v-col>
-                </v-row>
-            </v-card-actions>
-            <v-card-actions class="pa-0">
-            <span class="conversation-area__time-label" :class="message.self ? 'text-right' : ''">
-                {{message.time}}
-            </span>
-            </v-card-actions>
-        </v-card>
+            <v-card
+                class="conversation-area__baloon pa-4 pb-2"
+                :class="[
+                    { 'conversation-area__baloon--self': message.self === true },
+                    { 'conversation-area__baloon--other': message.self === false },
+                    { 'conversation-area__baloon--first':  messagePosition === 'first' },
+                    { 'conversation-area__baloon--middle': messagePosition === 'middle' },
+                    { 'conversation-area__baloon--last': messagePosition === 'last' },
+                    { 'conversation-area__baloon--single': messagePosition === 'single' },
+                ]"
+            >
+                {{message.content}}
+                <v-card-actions class="pa-0">
+                <span class="conversation-area__time-label" :class="message.self ? 'text-right' : ''">
+                    {{message.time}}
+                </span>
+                </v-card-actions>
+            </v-card>
+            <template v-if="message.actions">
+                <v-btn
+                    v-for="(action, a) in message.actions"
+                    :key="a"
+                    block
+                    :to='action.target'
+                    class="conversation-area__user-action my-1"
+                    :class="[
+                        { 'conversation-area__baloon--self': message.self === true },
+                        { 'conversation-area__baloon--other': message.self === false }
+                    ]"
+                >
+                    {{action.text}}
+                </v-btn>
+            </template>
         </v-col>
     </v-row>
 </template>
@@ -139,6 +145,12 @@ export default {
     font-size: 0.9rem
     text-transform: uppercase
     font-weight: 500
-    &:first-of-type
-        padding-left: 0!important
+    background-color: #FFFFFF!important
+    &.conversation-area__baloon--other
+        color: var(--v-secondary-lighten2)!important
+        border: solid 1px var(--v-secondary-lighten2)
+    &.conversation-area__baloon--self
+        color: var(--v-primary-base)!important
+        border: solid 1px var(--v-primary-base)
+
 </style>
