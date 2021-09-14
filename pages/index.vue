@@ -1,10 +1,9 @@
 <template>
-  <v-row class="index" no-gutters style="height: 100%">
-    <component :is="transition">
-      <conversation-area v-if="conversationActive >= 0" />
-      <conversations-list v-else />
+  <v-row class="index" no-gutters style="height: 100%;">
+    <component :is="transition" mode="out-in">
+        <conversation-area v-if="conversationActive >= 0" />
+        <conversations-list v-else />
     </component>
-
   </v-row>
 </template>
 
