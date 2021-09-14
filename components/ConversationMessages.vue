@@ -22,6 +22,7 @@
             <v-card-actions v-if="message.actions" class="pa-0 mt-3">
                 <v-row class="no-gutters">
                     <v-col v-for="(action, a) in message.actions" :key="a" cols="12" class="conversation-area__user-action my-1">
+                        <!-- TODO ao clicar enviar uma mensagem com o conteúdo exato do texto -->
                         <v-btn plain block :to='action.target' class="white--text text--darken-1">
                             {{action.text}}
                         </v-btn>
