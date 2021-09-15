@@ -66,18 +66,19 @@ export const mutations = {
     if (data.authorization && data.authorization.payload !== state.payload) {
       state.payload = data.authorization.payload
     }
-
-    const message = Object.assign({}, state.messageModel)
-    message.content = data.text
-    message.self = false
-    message.actions = Array.from(data.options)
-    const today = new Date();
-    const hour = today.getHours() + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
-    message.time = hour 
-
-    const index = state.conversationActive
-    const messages = state.conversations[index].messages
-    messages.push(message)
+    if (data.text) {
+      const message = Object.assign({}, state.messageModel)
+      message.content = data.text
+      message.self = false
+      message.actions = Array.from(data.options)
+      const today = new Date();
+      const hour = today.getHours() + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
+      message.time = hour 
+  
+      const index = state.conversationActive
+      const messages = state.conversations[index].messages
+      messages.push(message)
+    }
   }
   
 }

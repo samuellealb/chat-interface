@@ -24,7 +24,7 @@
                 </span>
                 </v-card-actions>
             </v-card>
-            <template v-if="message.actions">
+            <template v-if="message.actions && index === 0">
                 <v-btn
                     v-for="(action, a) in message.actions"
                     :key="a"
@@ -34,9 +34,9 @@
                         { 'conversation-area__baloon--self': message.self === true },
                         { 'conversation-area__baloon--other': message.self === false }
                     ]"
-                    @click="sendMessage(action.text)"
+                    @click="sendMessage(action)"
                 >
-                    {{action.text}}
+                    {{action}}
                 </v-btn>
             </template>
         </v-col>
