@@ -1,4 +1,19 @@
+import randtoken from 'rand-token'
+import { io } from 'socket.io-client'
+import createWebSocketPlugin from '~/plugins/websocket.plugin'
+
+const socket = io('http://localhost:3031', { transports : ['websocket'] })
+
+if (!localStorage.userToken) {
+  localStorage.userToken = randtoken.generate(16)
+}
+
 export const state = () => ({
+  userToken: localStorage.userToken,
+  wizardId: null,
+  accessToken: null,
+  payload: null,
+  // TODO Mudar de várias conversas para uma conversa apenas
   conversationActive: -1,
   conversations: [
     {
@@ -69,10 +84,37 @@ export const mutations = {
   closeConversation(state) {
     state.conversationActive = -1
   },
-
+  // TODO Transformar sendMessage em uma action
+  /**
+   * POST message to localhost:3030/messages contendo as propriedades abaixo
+   * @param {String} tokenFrom - userToken
+   * @param {String} wizardId - se houver wizardId no state
+   * @param {String} transport - com o valor fixo 'api'
+   * @param {String} text - mensagem do usuário
+   * 
+   * Se houver accessToken no state, acrescentar a propriedade abaixo no headers
+   * @param {String} Authorization - `Bearer ${accessToken}`
+   * 
+   * PS: Acho que fazer usando o axios é o mais fácil.
+   */
   sendMessage(state, payload) {
     const index = state.conversationActive
     const messages = state.conversations[index].messages
     messages.push(payload)
   }
+  // TODO Criar commit para receber notificação do servidor
+  /**
+   * O conteúdo da resposta recebida virá como:
+   * @param {String} text - mensagem do bot
+   * @param {String} wizardId - se um valor retornar (nulo ou string) e for diferente do registrado no state, alterar o state
+   * @param {String} accessToken - se um valor retornar (nulo ou string) e for diferente do registrado no state, alterar o state
+   * @param {Object} authorization.payload - se um valor retornar (nulo ou string) e for diferente do registrado no state, alterar o state
+   * @param {Array} options - opções automáticas para o usuário
+   */
 }
+
+export const actions = {}
+
+export const plugins = [
+  createWebSocketPlugin(socket)
+]

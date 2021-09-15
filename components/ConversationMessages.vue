@@ -26,6 +26,7 @@
                 </v-card-actions>
             </v-card>
             <template v-if="message.actions">
+                <!-- TODO ao clicar enviar uma mensagem com o conteúdo exato do texto -->
                 <v-btn
                     v-for="(action, a) in message.actions"
                     :key="a"
