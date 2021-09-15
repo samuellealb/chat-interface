@@ -1,9 +1,8 @@
 <template>
     <v-row class="no-gutters">
-        <!-- TODO: dynamic balloon width based on largest item in the same block-->
         <v-col
             cols="auto"
-            style="width: 275px;" 
+            style="max-width: 75%;" 
             :class="message.self ? 'ml-auto' : 'mr-auto'"
             class="conversation-area__card"
         >
@@ -26,17 +25,16 @@
                 </v-card-actions>
             </v-card>
             <template v-if="message.actions">
-                <!-- TODO ao clicar enviar uma mensagem com o conteúdo exato do texto -->
                 <v-btn
                     v-for="(action, a) in message.actions"
                     :key="a"
                     block
-                    :to='action.target'
                     class="conversation-area__user-action my-1"
                     :class="[
                         { 'conversation-area__baloon--self': message.self === true },
                         { 'conversation-area__baloon--other': message.self === false }
                     ]"
+                    @click="sendMessage(action.text)"
                 >
                     {{action.text}}
                 </v-btn>
@@ -100,6 +98,22 @@ export default {
                 return 'single'
             }
         }
+    },
+    methods: {
+        sendMessage (actionText) {
+            class Message {
+                constructor(content) {
+                this.content = content
+                this.self = true
+                const today = new Date();
+                const hour = today.getHours() + ":" + (today.getMinutes() < 10 ? '0' : '') + today.getMinutes();
+                this.time = hour 
+                }
+            }
+
+            const message = new Message(actionText)
+            this.$store.dispatch('sendMessage', message)
+        }
     }
 }
 </script>
@@ -114,10 +128,16 @@ export default {
         border-bottom-right-radius: 0!important
         margin: 8px 0
     &.conversation-area__baloon--last
-        border-top-left-radius: 0!important
         border-top-right-radius: 0!important
         border-bottom-right-radius: 0!important
-        margin: 2px 0 8px
+        margin: 1px 0 8px
+    &.conversation-area__baloon--first
+        border-bottom-right-radius: 0!important
+        margin: 8px 0 1px
+    &.conversation-area__baloon--middle
+        border-bottom-right-radius: 0!important
+        border-top-right-radius: 0!important
+        margin: 1px 0
 .conversation-area__baloon--other
     background-color: var(--v-secondary-lighten2)!important
     color: #FFFFFF!important
@@ -126,16 +146,15 @@ export default {
         margin: 8px 0
     &.conversation-area__baloon--last
         border-top-left-radius: 0!important
-        border-top-right-radius: 0!important
         border-bottom-left-radius: 0!important
-        margin: 2px 0 8px
-.conversation-area__baloon--first
-        border-bottom-left-radius: 0!important
-        border-bottom-right-radius: 0!important
-        margin: 8px 0 2px
-.conversation-area__baloon--middle
-        border-radius: 0!important
-        margin: 2px 0
+        margin: 1px 0 8px
+    &.conversation-area__baloon--first
+            border-bottom-left-radius: 0!important
+            margin: 8px 0 1px
+    &.conversation-area__baloon--middle
+            border-bottom-left-radius: 0!important
+            border-top-left-radius: 0!important
+            margin: 1px 0
 .conversation-area__time-label
     width: 100%
     font-weight: 300

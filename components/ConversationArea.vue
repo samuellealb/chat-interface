@@ -65,7 +65,7 @@ export default {
       }
 
       const message = new Message(typedMessage)
-      this.$store.commit('sendMessage', message)
+      this.$store.dispatch('sendMessage', message)
       this.typedMessage = ''
       this.$vuetify.goTo(this.bottom)
     }
